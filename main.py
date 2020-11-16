@@ -17,17 +17,15 @@ def interface(model_path):
     while(run): 
         clock.tick(80) 
 
-        if pygame.mouse.get_pressed()[0]:   # drawing with left click
-            DP.write_new_value(pygame.mouse.get_pos(), 1)
-            DP.draw_on_screen()  
+        if pygame.mouse.get_pressed()[0]:   # обработка левого нажатия мыши
+            if DP.write_new_value(pygame.mouse.get_pos(), 1):
+                DP.draw_on_screen()  
+                DP.draw_prediction()   
 
-            DP.draw_prediction()   
-
-        if pygame.mouse.get_pressed()[2]:   # erasing with right click 
-            DP.write_new_value(pygame.mouse.get_pos(), 0) 
-            DP.draw_on_screen() 
-   
-            DP.draw_prediction() 
+        if pygame.mouse.get_pressed()[2]:   # обработка правого нажатия мыши (ластик)
+            if DP.write_new_value(pygame.mouse.get_pos(), 0):
+                DP.draw_on_screen()    
+                DP.draw_prediction() 
             
         if pygame.key.get_pressed()[pygame.K_ESCAPE]: 
             run = False
