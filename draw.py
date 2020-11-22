@@ -12,19 +12,18 @@ class Display(object):
         self.sizeX = win.get_height() // self.board_shape
         self.sizeY = win.get_height() // self.board_shape
         self.win = win
-        self.model = tf.keras.models.load_model(model_path) 
-        
-        self.myfont = pygame.font.SysFont('Comic Sans MS', 30)   
+        self.model = tf.keras.models.load_model(model_path)         
+        self.myfont = pygame.font.SysFont('Comic Sans MS', 30)
          
     def draw_on_screen(self):  
         """ Вывод рисунка на экран """
-        pygame.draw.rect(self.win,(0, 0, 0),(0, 0, self.win.get_width(), self.win.get_height()))
+        pygame.draw.rect(self.win, (0, 0, 0),(0, 0, self.win.get_width(), self.win.get_height()))
         for i in range(0, np.shape(self.img)[0]): 
             for j in range(0, np.shape(self.img)[1]):    
                 if self.img[i][j] == 0 :
-                    pygame.draw.rect(self.win,(22, 22, 22),(i*self.sizeX, j*self.sizeY, self.sizeX-5, self.sizeY-5)) 
+                    pygame.draw.rect(self.win, (22, 22, 22), (i * self.sizeX, j * self.sizeY, self.sizeX - 5, self.sizeY - 5)) 
                 else:
-                    pygame.draw.rect(self.win,(self.img[i][j] * 255,self.img[i][j] * 255,self.img[i][j] * 255),(i*self.sizeX, j*self.sizeY, self.sizeX-5, self.sizeY-5))                     
+                    pygame.draw.rect(self.win, (self.img[i][j] * 255,self.img[i][j] * 255,self.img[i][j] * 255), (i * self.sizeX, j * self.sizeY, self.sizeX - 5, self.sizeY - 5))                     
  
     def write_new_value(self, pos, val):
         """ Добавление пикселя в рисунок курсором """
@@ -33,20 +32,20 @@ class Display(object):
             if self.img[pos[0]//self.sizeX][pos[1]//self.sizeY] != val:     
                 self.img[pos[0]//self.sizeX][pos[1]//self.sizeY] = val
                 if pos[0]//self.sizeX+1 < self.board_shape:  # проверка на выход за границы массива снизу
-                    if self.img[pos[0]//self.sizeX+1][pos[1]//self.sizeY] != 1:
-                        self.img[pos[0]//self.sizeX+1][pos[1]//self.sizeY] = val * 0.5 
+                    if self.img[pos[0]//self.sizeX + 1][pos[1]//self.sizeY] != 1:
+                        self.img[pos[0]//self.sizeX + 1][pos[1]//self.sizeY] = val * 0.5 
 
                 if pos[1]//self.sizeY+1 < self.board_shape:  # проверка на выход за границы массива справа
-                    if self.img[pos[0]//self.sizeX][pos[1]//self.sizeY+1] != 1:
-                        self.img[pos[0]//self.sizeX][pos[1]//self.sizeY+1] = val * 0.5  
+                    if self.img[pos[0]//self.sizeX][pos[1]//self.sizeY + 1] != 1:
+                        self.img[pos[0]//self.sizeX][pos[1]//self.sizeY + 1] = val * 0.5  
 
                 if not pos[1]//self.sizeY+1 == 1:  # проверка на выход за границы массива сверху
-                    if self.img[pos[0]//self.sizeX][pos[1]//self.sizeY-1] != 1:
-                        self.img[pos[0]//self.sizeX][pos[1]//self.sizeY-1] = val * 0.5
+                    if self.img[pos[0]//self.sizeX][pos[1]//self.sizeY - 1] != 1:
+                        self.img[pos[0]//self.sizeX][pos[1]//self.sizeY - 1] = val * 0.5
 
                 if not pos[0]//self.sizeX+1 == 1:  # проверка на выход за границы массива слева
-                    if self.img[pos[0]//self.sizeX-1][pos[1]//self.sizeY] != 1:
-                        self.img[pos[0]//self.sizeX-1][pos[1]//self.sizeY] = val * 0.5
+                    if self.img[pos[0]//self.sizeX - 1][pos[1]//self.sizeY] != 1:
+                        self.img[pos[0]//self.sizeX - 1][pos[1]//self.sizeY] = val * 0.5
                 return True 
         return False
 
@@ -66,4 +65,4 @@ class Display(object):
         return self.model.predict(input)
 
     def get_img_values(self):
-        return np.reshape(self.img, (1, 28, 28, 1))
+        return np.reshape(self.img, (1, 28, 28, 1)).T

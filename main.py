@@ -37,9 +37,8 @@ def interface(model_path):
     pygame.display.quit()
     pygame.quit()
 
-if __name__ == "__main__":    
-    path = os.path.join(os.getcwd(), 'model/my_model.h5')
-    path = 'C:/Users/Valter/Desktop/tests/Keras/Digits_rework/model/my_model.h5'
+if __name__ == "__main__":     
+    path = 'model/my_model.h5'
     if os.path.exists(path):
         interface(path)
     else:
