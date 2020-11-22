@@ -6,7 +6,7 @@ class Display(object):
     
     def __init__(self, model_path, win):
         self.img_size = [win.get_height(), win.get_height()]  
-        self.img = np.zeros(self.img) 
+        self.img = np.zeros((28, 28)) 
         self.board_shape = np.shape(self.img)[0]
         self.sizeX = win.get_height() // self.board_shape
         self.sizeY = win.get_height() // self.board_shape
