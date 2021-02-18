@@ -5,7 +5,7 @@ import tensorflow as tf
 class Display(object):
     
     def __init__(self, model_path, win):
-        self.img_size = [win.get_height(), win.get_height()]  
+        self.img_screen_size = [win.get_height(), win.get_height()]  
         self.img = np.zeros((28, 28)) 
         self.board_shape = np.shape(self.img)[0]
         self.sizeX = win.get_height() // self.board_shape
@@ -26,7 +26,7 @@ class Display(object):
  
     def write_new_value(self, pos, val):
         """ Добавление пикселя в рисунок курсором """
-        if pos[0] < self.img_size[0] and pos[1] < self.img_size[1]:      # границы поля для рисования
+        if pos[0] < self.img_screen_size[0] and pos[1] < self.img_screen_size[1]:      # границы поля для рисования
 
             if self.img[pos[0]//self.sizeX][pos[1]//self.sizeY] != val:     
                 self.img[pos[0]//self.sizeX][pos[1]//self.sizeY] = val
@@ -53,11 +53,12 @@ class Display(object):
         predictions = self.get_prediction()
         sum = np.sum(predictions)
         for i in range(0, len(predictions[0])):
-            numbers = self.myfont.render((f'{chr(48+i)} = {predictions[0][i] / sum}'), True, (200, 200, 200)) # строка для предсказаний  
-            self.win.blit(numbers, (self.img_size[0] + 10, 30 * (i + 1)))
+            numbers = self.myfont.render((f'{chr(48+i)} = {round(predictions[0][i] / sum, 3 )}'), True, (200, 200, 200)) # строка для предсказаний  
+            self.win.blit(numbers, (self.img_screen_size[0] + 10, 30 * (i + 1)))
+            
         max = np.argmax(predictions[0])
-        best_value = self.myfont.render((f'{chr(48 + max)} = {predictions[0][max] / sum}'), True, (80, 80, 220)) # выделение лучшего значения
-        self.win.blit(best_value, (self.img_size[0] + 10, 30 * (max + 1)))
+        best_value = self.myfont.render((f'{chr(48 + max)} = { round(predictions[0][max] / sum, 3) }'), True, (80, 80, 220)) # выделение лучшего значения
+        self.win.blit(best_value, (self.img_screen_size[0] + 10, 30 * (max + 1)))
 
     def get_prediction(self):
         input = self.get_img_values()
