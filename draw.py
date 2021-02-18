@@ -57,7 +57,7 @@ class Display(object):
             self.win.blit(numbers, (self.img_screen_size[0] + 10, 30 * (i + 1)))
             
         max = np.argmax(predictions[0])
-        best_value = self.myfont.render((f'{chr(48 + max)} = { round(predictions[0][max] / sum, 3) }'), True, (80, 80, 220)) # выделение лучшего значения
+        best_value = self.myfont.render((f'{chr(48 + max)} = {round(predictions[0][max] / sum, 3) }'), True, (80, 80, 220)) # выделение лучшего значения
         self.win.blit(best_value, (self.img_screen_size[0] + 10, 30 * (max + 1)))
 
     def get_prediction(self):
